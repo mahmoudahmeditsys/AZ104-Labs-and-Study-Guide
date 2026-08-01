@@ -14,33 +14,15 @@ This repository documents my learning journey toward becoming a Microsoft Azure 
 
 ---
 
-# Repository Structure
+## 📂 Repository Contents
 
-```
-AZ104-Study-Guide
-│
-├── Study Notes
-│   ├── Azure Fundamentals
-│   ├── Azure Identity & Governance
-│   ├── Azure Storage
-│   ├── Azure Compute
-│   ├── Azure Networking
-│   ├── Azure Monitoring
-│   └── Azure Backup & Recovery
-│
-├── Hands-on Labs
-│   ├── Lab 01 - Resource Groups
-│   ├── Lab 02 - Virtual Networks
-│   ├── Lab 03 - Azure Virtual Machines
-│   ├── Lab 04 - Storage Accounts
-│   ├── Lab 05 - Network Security Groups
-│   ├── Lab 06 - Azure Backup
-│   ├── Lab 07 - Azure Monitor
-│   ├── Lab 08 - Microsoft Entra ID
-│   └── ...
-│
-└── Useful Resources
-```
+* **01-Azure-Fundamentals:** Tenant, Subscriptions, Resource Groups, and Governance
+* **02-Identity-and-Governance:** Microsoft Entra ID, Users, Groups, and RBAC Roles
+* **03-Virtual-Networking:** VNets, Subnets, NSGs, and Route Tables
+* **04-Virtual-Machines:** IaaS Deployment, Availability Sets, and Extensions
+* **05-Storage:** Storage Accounts, Blob Tiers, and Azure Files
+* **06-Backup-and-Recovery:** Recovery Services Vaults and Disaster Recovery
+* **07-Monitoring:** Azure Monitor, Log Analytics, and Alerts
 
 ---
 
@@ -78,20 +60,6 @@ Each lab includes:
 
 ---
 
-# Progress
-
-| Topic | Status |
-|--------|--------|
-| Azure Fundamentals | ⏳ |
-| Resource Groups | ⏳ |
-| Azure Networking | ⏳ |
-| Azure Storage | ⏳ |
-| Azure Compute | ⏳ |
-| Azure Backup | ⏳ |
-| Azure Monitoring | ⏳ |
-| Microsoft Entra ID | ⏳ |
-
----
 
 # Goal
 
