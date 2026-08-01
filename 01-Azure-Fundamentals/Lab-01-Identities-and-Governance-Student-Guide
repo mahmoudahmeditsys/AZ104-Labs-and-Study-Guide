@@ -1,54 +1,62 @@
-# Lab 01: Configuring Microsoft Entra ID Device Settings & Conditional Access MFA
+# AZ-104 Domain 1: Identities and Governance (Azure for Students Lab Guide)
 
 ---
 
-## 01 Overview
-Device identity is a critical component of Zero Trust access control. This lab focuses on controlling hardware join limits in Microsoft Entra ID and deploying a **Conditional Access Policy** to enforce Multi-Factor Authentication (MFA) and compliant device access for administrative accounts.
+## 01 Overview & Strategy
+In enterprise environments, identity is the **primary security perimeter**. This lab guide provides a complete, hands-on framework for mastering **Domain 1 (Identities and Governance)** of the **AZ-104: Microsoft Azure Administrator** certification. 
+
+To account for the limitations of **Azure for Students** accounts (which lack Microsoft Entra ID P1/P2 licensing), this guide utilizes **smart workarounds** (e.g., *Security Defaults*, *Selected Group SSPR*, *Custom RBAC*) to deliver full production-grade governance zero-cost.
 
 ---
 
-## 02 Business Scenario
-**Company:** Contoso Health  
-**Problem:** Administrative accounts are vulnerable to credential theft when accessed from unmanaged devices or untrusted locations. Legacy per-user MFA is too static and does not evaluate device health or location context.  
-**Solution:** 1. Restrict the maximum number of devices a user can join to Microsoft Entra ID to `20`.
-2. Deploy a Conditional Access policy requiring **Global Administrators** to complete MFA **AND** use an **Entra hybrid joined device** when connecting from untrusted locations.
+## 02 Azure for Students: Feature & Licensing Strategy
+
+| Premium Enterprise Feature | Free Student Workaround | Exam Relevance | Strategic MCT Note |
+| :--- | :--- | :--- | :--- |
+| **Conditional Access Policies** | **Security Defaults** | High | Forces MFA across all users; zero licensing required. |
+| **Self-Service Password Reset (SSPR) - All** | **SSPR - Selected Group Scope** | High | Scoping SSPR to a specific group bypasses bulk licensing limits. |
+| **P2 Identity Protection** | **RBAC & Activity Logs** | Medium | Enforces Least Privilege access boundaries. |
 
 ---
 
 ## 03 On-Premises to Azure Mapping
 
-| On-Premises Concept | Azure Cloud Equivalent | Operational Value |
+| On-Premises Infrastructure | Azure Cloud Equivalent | Key Operational Difference |
 | :--- | :--- | :--- |
-| **Active Directory Domain Join** | **Microsoft Entra Hybrid Join** | Registers devices in the cloud while retaining local AD domain controllers. |
-| **GPO / Firewall Location Rules** | **Conditional Access Named Locations** | Scopes access rules based on trusted corporate public IP ranges. |
-| **Static User Permissions** | **Conditional Access Grant Controls** | Dynamically evaluates user role, device state, and location risk at login time. |
+| **Active Directory Domain Services** | **Microsoft Entra ID** | Flat identity directory using REST APIs (OAuth/OIDC) instead of LDAP/Kerberos. |
+| **Active Directory Bulk Import** | **Entra Bulk User Creation (CSV)** | Automated identity creation for M&A/acquisition scenarios. |
+| **Delegation of Control Wizard** | **Custom Azure RBAC Roles** | JSON-defined action matrices scoped at Subscription or RG level. |
+| **Group Policy Objects (GPOs)** | **Azure Policy & Resource Locks** | Subscription-wide compliance enforcement and non-deletion locks. |
 
 ---
 
 ## 04 Architectural Blueprint
 
 ```text
-+-------------------------------------------------------------------------+
-|                        Microsoft Entra ID Tenant                        |
-+-------------------------------------------------------------------------+
-                                     |
-    User: Global Administrator       |       Location: Untrusted IP
-                                     v
-+-------------------------------------------------------------------------+
-| Conditional Access Policy: "CA-Enforce-Admin-MFA-CompliantDevice"       |
-|                                                                         |
-| Conditions:                                                             |
-|   - Users     : Global Administrator Role                               |
-|   - Apps      : All Cloud Apps                                          |
-|   - Location  : Exclude Trusted Office IP Range                         |
-|                                                                         |
-| Grant Controls (REQUIRE ALL):                                           |
-|   [✓] Require Multi-Factor Authentication                               |
-|   [✓] Require Microsoft Entra Hybrid Joined Device                      |
-+-------------------------------------------------------------------------+
-                                     |
-              +----------------------+----------------------+
-              |                                             |
-              v                                             v
-     Valid MFA + Hybrid Device                     Unmanaged / Non-Joined
-     [ ACCESS GRANTED ✅ ]                        [ ACCESS BLOCKED ❌ ]
++-----------------------------------------------------------------------------------+
+|                            Microsoft Entra ID Tenant                              |
+|                                                                                   |
+|  [ Bulk Imported Users ] ────> ( Member of: Security Group )                      |
+|                                         |                                         |
+|                                         v                                         |
+|                                 [ SSPR Enabled ]                                  |
++-----------------------------------------------------------------------------------+
+                                       |
+                                       v
++-----------------------------------------------------------------------------------+
+|                               Azure Subscription                                  |
+|                                                                                   |
+|  Governance: Allowed Locations Policy (e.g., North Europe)                        |
+|                                                                                   |
+|  +-----------------------------------------------------------------------------+  |
+|  | Resource Group: RG1                                                         |  |
+|  |                                                                             |  |
+|  | Lock: CanNotDelete                                                          |  |
+|  | Role Assignment: "VM Contributor - No Delete" (Custom Role)                 |  |
+|  |                                                                             |  |
+|  |  +--------------------+   +--------------------+                            |  |
+|  |  | Virtual Machine    |   | Disk / Storage     |                            |  |
+|  |  | Tag: Dept = IT     |   |                    |                            |  |
+|  |  +--------------------+   +--------------------+                            |  |
+|  +-----------------------------------------------------------------------------+  |
++-----------------------------------------------------------------------------------+
