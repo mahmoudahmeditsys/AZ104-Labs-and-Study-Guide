@@ -17,7 +17,7 @@ In Azure, all resources (like Virtual Machines, Storage Accounts, and Databases)
 1. Navigate to [portal.azure.com](https://portal.azure.com) and log in.
 2. Select **Resource groups** from the Azure services dashboard or search bar.
 
-![Azure Portal Home](images/1.png)
+![Azure Portal Home](./images/1.png)
 
 ---
 
