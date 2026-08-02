@@ -17,14 +17,14 @@ In Azure, all resources (like Virtual Machines, Storage Accounts, and Databases)
 1. Navigate to [portal.azure.com](https://portal.azure.com) and log in.
 2. Select **Resource groups** from the Azure services dashboard or search bar.
 
-![Azure Portal Home](./images/1.png)
+![Azure Portal Home](./Images/1.png)
 
 ---
 
 ### Step 2: Navigate to Resource Groups
 1. Inside the **Resource Manager | Resource groups** view, click **+ Create** at the top left.
 
-![Resource Groups Dashboard](images/2.png)
+![Resource Groups Dashboard](./Images/2.png)
 
 ---
 
@@ -34,7 +34,7 @@ In Azure, all resources (like Virtual Machines, Storage Accounts, and Databases)
 3. Choose your **Region**: `(US) East US`.
 4. Click **Review + create**.
 
-![Create Resource Group Basics](images/3.png)
+![Create Resource Group Basics](./Images/3.png)
 
 ---
 
@@ -42,7 +42,7 @@ In Azure, all resources (like Virtual Machines, Storage Accounts, and Databases)
 1. Review the configuration parameters.
 2. Click **Create** to deploy the resource group.
 
-![Review + Create Validation](images/4.png)
+![Review + Create Validation](./Images/4.png)
 
 ---
 
@@ -50,14 +50,14 @@ In Azure, all resources (like Virtual Machines, Storage Accounts, and Databases)
 1. Navigate to the newly deployed resource group `rg-az104-lab01-prod`.
 2. Confirm the subscription, region, and initial empty resource list.
 
-![Resource Group Overview](images/5.png)
+![Resource Group Overview](./Images/5.png)
 
 ---
 
 ### Step 6: Navigate to Tags Configuration
 1. In the left navigation menu under `rg-az104-lab01-prod`, click **Tags**.
 
-![Tags Section Initial View](images/6.png)
+![Tags Section Initial View](./Images/6.png)
 
 ---
 
@@ -66,7 +66,7 @@ In Azure, all resources (like Virtual Machines, Storage Accounts, and Databases)
 2. Add Tag 2: Name = `Owner`, Value = `CloudAdmin`.
 3. Click **Apply**.
 
-![Tags Configured and Applied](images/7.png)
+![Tags Configured and Applied](./Images/7.png)
 
 ---
 
@@ -74,7 +74,7 @@ In Azure, all resources (like Virtual Machines, Storage Accounts, and Databases)
 1. In the left navigation menu under **Settings**, select **Locks**.
 2. Verify that no locks currently exist on the resource group.
 
-![Locks Initial View](images/8.png)
+![Locks Initial View](./Images/8.png)
 
 ---
 
@@ -85,7 +85,7 @@ In Azure, all resources (like Virtual Machines, Storage Accounts, and Databases)
 4. Click **OK**.
 5. Verify the notification popup confirming **"Creating lock 'lock-prevent-delete' in resource group 'rg-az104-lab01-prod' succeeded."**
 
-![Delete Lock Successfully Created](images/9.png)
+![Delete Lock Successfully Created](./Images/9.png)
 
 ---
 
@@ -98,3 +98,13 @@ az group create --name rg-az104-lab01-prod --location eastus --tags Environment=
 
 # Apply a Delete Lock to the Resource Group
 az lock create --name lock-prevent-delete --resource-group rg-az104-lab01-prod --lock-type CanNotDelete
+````
+
+### Azure PowerShell
+```powershell
+# Create Resource Group
+New-AzResourceGroup -Name "rg-az104-lab01-prod" -Location "EastUS" -Tag @{Environment="Production"; Owner="CloudAdmin"}
+
+# Apply Delete Lock
+New-AzResourceLock -LockName "lock-prevent-delete" -LockLevel CanNotDelete -ResourceGroupName "rg-az104-lab01-prod"
+```
