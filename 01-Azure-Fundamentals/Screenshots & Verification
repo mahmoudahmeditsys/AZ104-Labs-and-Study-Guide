@@ -1,1 +1,12 @@
+## 📸 Screenshots & Verification
 
+### 1. Creating Resource Group `rg-az104-lab01-prod`
+![Create Resource Group](images/2-rg-basics.png)
+![Review and Create](images/4-rg-created.png)
+
+### 2. Applying Environment & Owner Tags
+![Adding Tags](images/7-tags-applied.png)
+
+### 3. Applying Delete Lock
+![Locks Dashboard](images/8-locks-empty.png)
+![Lock Created Confirmation](images/9-lock-created.png)
